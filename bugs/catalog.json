@@ -1,0 +1,206 @@
+[
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Chart",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Cli",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Closure",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Codec",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Collections",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Compress",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Csv",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Gson",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "JacksonCore",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "JacksonDatabind",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "JacksonXml",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Jsoup",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "JxPath",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Lang",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Math",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Mockito",
+    "bug_id": 1
+  },
+  {
+    "language": "java",
+    "framework": "defects4j",
+    "project": "Time",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "PySnooper",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "ansible",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "black",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "cookiecutter",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "fastapi",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "httpie",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "keras",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "luigi",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "matplotlib",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "pandas",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "sanic",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "scrapy",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "spacy",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "thefuck",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "tornado",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "tqdm",
+    "bug_id": 1
+  },
+  {
+    "language": "python",
+    "framework": "bugsinpy",
+    "project": "youtube-dl",
+    "bug_id": 1
+  }
+]

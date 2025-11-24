@@ -1,0 +1,47 @@
+# RAID-AI Green Agent Configuration
+
+agent:
+  name: "RAID-AI Multilanguage Bug-Fixing Benchmark"
+  version: "0.1.0"
+  type: "green"  # evaluator agent
+
+# Bug Selection
+bugs:
+  java:
+    framework: "defects4j"
+    count: 30
+    difficulty_distribution:
+      easy: 10
+      medium: 15
+      hard: 5
+  python:
+    framework: "bugsinpy"
+    count: 30
+    difficulty_distribution:
+      easy: 10
+      medium: 15
+      hard: 5
+  javascript:
+    framework: "bugsjs"
+    count: 30
+    difficulty_distribution:
+      easy: 10
+      medium: 15
+      hard: 5
+
+# Evaluation Settings
+evaluation:
+  timeout_per_bug: 600  # 10 minutes per bug
+  max_attempts: 3
+  scoring:
+    correctness: 0.50     # 50% - Does it pass tests?
+    code_quality: 0.20    # 20% - Clean code?
+    efficiency: 0.15      # 15% - Time taken?
+    minimal_change: 0.15  # 15% - Smallest fix?
+
+# Framework Paths
+paths:
+  defects4j: "/home/jo/Documents/school/raid-ai/defects4j"
+  bugsinpy: "/home/jo/Documents/school/raid-ai/BugsInPy"
+  bugsjs: "/home/jo/Documents/school/raid-ai/bugsjs-dataset"
+  workspace: "/tmp/raid-ai-workspace"
