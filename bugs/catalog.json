@@ -202,5 +202,335 @@
     "framework": "bugsinpy",
     "project": "youtube-dl",
     "bug_id": 1
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Bower",
+    "bug_id": 1,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Bower",
+    "bug_id": 2,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Bower",
+    "bug_id": 3,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Eslint",
+    "bug_id": 1,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Eslint",
+    "bug_id": 2,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Eslint",
+    "bug_id": 3,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Express",
+    "bug_id": 1,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Express",
+    "bug_id": 2,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Express",
+    "bug_id": 3,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Hessian.js",
+    "bug_id": 1,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Hessian.js",
+    "bug_id": 2,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Hessian.js",
+    "bug_id": 3,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Hexo",
+    "bug_id": 1,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Hexo",
+    "bug_id": 2,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Hexo",
+    "bug_id": 3,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Karma",
+    "bug_id": 1,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Karma",
+    "bug_id": 2,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Karma",
+    "bug_id": 3,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Mongoose",
+    "bug_id": 1,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Mongoose",
+    "bug_id": 2,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Mongoose",
+    "bug_id": 3,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Node-redis",
+    "bug_id": 1,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Node-redis",
+    "bug_id": 2,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Node-redis",
+    "bug_id": 3,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Pencilblue",
+    "bug_id": 1,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Pencilblue",
+    "bug_id": 2,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Pencilblue",
+    "bug_id": 3,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Shields",
+    "bug_id": 1,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Shields",
+    "bug_id": 2,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
+  },
+  {
+    "language": "javascript",
+    "framework": "bugsjs",
+    "project": "Shields",
+    "bug_id": 3,
+    "info": {
+      "commit": "",
+      "issue_id": "",
+      "type": ""
+    }
   }
 ]

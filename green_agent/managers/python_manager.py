@@ -15,12 +15,10 @@ class PythonManager:
         self.env['PATH'] = f"{self.bugsinpy_bin}:{self.env['PATH']}"
     
     def get_available_projects(self) -> List[str]:
-        """Get list of all available BugsInPy projects"""
         projects_dir = self.bugsinpy_path / "projects"
         return [d.name for d in projects_dir.iterdir() if d.is_dir()]
     
     def get_bug_info(self, project: str, bug_id: int) -> Dict:
-        """Get information about a specific bug"""
         result = subprocess.run(
             ["bugsinpy-info", "-p", project, "-i", str(bug_id)],
             capture_output=True,
@@ -67,7 +65,6 @@ class PythonManager:
         return result.returncode == 0
     
     def run_tests(self, bug_dir: Path) -> Dict:
-        """Run tests on the bug"""
         result = subprocess.run(
             ["bugsinpy-test"],
             cwd=bug_dir,
