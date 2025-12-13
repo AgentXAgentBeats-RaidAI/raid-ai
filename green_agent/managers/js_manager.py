@@ -1,6 +1,6 @@
 """JavaScript Bug Manager using BugsJS"""
 import subprocess
-import json
+import csv
 import shutil
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -9,72 +9,60 @@ class JSManager:
     def __init__(self, bugsjs_path: str, workspace: str):
         self.bugsjs_path = Path(bugsjs_path)
         self.workspace = Path(workspace)
-        self.projects_dir = self.bugsjs_path / "Projects"  # Capital P!
+        self.projects_dir = self.bugsjs_path / "Projects"
     
     def get_available_projects(self) -> List[str]:
-        """Get list of all available BugsJS projects"""
         if not self.projects_dir.exists():
             return []
         return [d.name for d in self.projects_dir.iterdir() if d.is_dir()]
     
     def get_bug_info(self, project: str, bug_id: int) -> Dict:
-        """Get information about a specific bug"""
-        bugs_file = self.projects_dir / project / "bugs.json"
+        bugs_csv = self.projects_dir / project / f"{project}_bugs.csv"
         
-        if not bugs_file.exists():
+        if not bugs_csv.exists():
             return {}
         
-        with open(bugs_file, 'r') as f:
-            bugs = json.load(f)
-        
-        for bug in bugs:
-            if bug.get('bugId') == str(bug_id) or bug.get('bugId') == bug_id:
-                return bug
+        with open(bugs_csv, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f, delimiter=';')
+            for row in reader:
+                if int(row.get('ID', 0)) == bug_id:
+                    return row
         
         return {}
     
     def get_all_bugs(self, project: str) -> List[Dict]:
-        """Get all bugs for a project"""
-        bugs_file = self.projects_dir / project / "bugs.json"
+        bugs_csv = self.projects_dir / project / f"{project}_bugs.csv"
         
-        if not bugs_file.exists():
+        if not bugs_csv.exists():
             return []
         
-        with open(bugs_file, 'r') as f:
-            return json.load(f)
+        bugs = []
+        with open(bugs_csv, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f, delimiter=';')
+            for row in reader:
+                bugs.append(row)
+        
+        return bugs
     
     def checkout_bug(self, project: str, bug_id: int, buggy: bool = True) -> Path:
-        """Checkout a bug to workspace"""
+        """Extract bug ZIP file to workspace
+        
+        BugsJS stores bugs as ZIP files: Eslint-1.zip, Eslint-2.zip, etc.
+        """
         bug_dir = self.workspace / f"{project}_{bug_id}_{'buggy' if buggy else 'fixed'}"
         
+        # Clean up if exists
         if bug_dir.exists():
             shutil.rmtree(bug_dir)
         
-        bug_info = self.get_bug_info(project, bug_id)
-        if not bug_info:
-            raise Exception(f"Bug {bug_id} not found in project {project}")
+        # Find the ZIP file
+        zip_file = self.projects_dir / project / f"{project}-{bug_id}.zip"
         
-        tag = f"Bug-{bug_id}" if buggy else f"Bug-{bug_id}-fix"
-        repo_url = bug_info.get('repositoryUrl', f"https://github.com/BugsJS/{project}")
+        if not zip_file.exists():
+            raise Exception(f"Bug ZIP not found: {zip_file}")
         
-        result = subprocess.run(
-            ["git", "clone", repo_url, str(bug_dir)],
-            capture_output=True,
-            text=True
-        )
-        
-        if result.returncode != 0:
-            raise Exception(f"Failed to clone {project}: {result.stderr}")
-        
-        result = subprocess.run(
-            ["git", "checkout", tag],
-            cwd=bug_dir,
-            capture_output=True,
-            text=True
-        )
-        
-        if result.returncode != 0:
-            raise Exception(f"Failed to checkout tag {tag}: {result.stderr}")
+        # Extract the ZIP
+        shutil.unpack_archive(zip_file, bug_dir)
         
         return bug_dir
     
@@ -117,18 +105,28 @@ class JSManager:
         for project in projects:
             bugs = self.get_all_bugs(project)
             
-            for i, bug in enumerate(bugs[:bugs_per_project]):
+            # Select first N bugs from this project
+            for bug in bugs[:bugs_per_project]:
                 if len(selected_bugs) >= count:
                     break
                 
-                bug_id = bug.get('bugId', i + 1)
-                selected_bugs.append({
-                    "language": "javascript",
-                    "framework": "bugsjs",
-                    "project": project,
-                    "bug_id": bug_id,
-                    "info": bug
-                })
+                try:
+                    bug_id = int(bug.get('ID', 0))
+                    if bug_id > 0:
+                        selected_bugs.append({
+                            "language": "javascript",
+                            "framework": "bugsjs",
+                            "project": project,
+                            "bug_id": bug_id,
+                            "info": {
+                                "commit": bug.get('Commit', ''),
+                                "issue_id": bug.get('Issue ID', ''),
+                                "type": bug.get('Type', '')
+                            }
+                        })
+                except (ValueError, KeyError) as e:
+                    print(f"WARNING: Error processing bug in {project}: {e}")
+                    continue
             
             if len(selected_bugs) >= count:
                 break
