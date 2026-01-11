@@ -1,6 +1,7 @@
 """Main Green Agent - RAID-AI Benchmark"""
 import yaml
 import json
+import os
 import time
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -65,7 +66,11 @@ class RAIDGreenAgent:
         self._save_catalog()
     
     def _save_catalog(self):
-        catalog_path = Path("bugs/catalog.json")
+        catalog_path = 'bugs/catalog.json'
+        
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(catalog_path), exist_ok=True)
+        
         with open(catalog_path, 'w') as f:
             json.dump(self.bugs_catalog, f, indent=2)
         print(f"Catalog saved to {catalog_path}")
