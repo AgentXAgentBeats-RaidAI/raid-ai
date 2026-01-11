@@ -11,7 +11,13 @@ from green_agent.managers.js_manager import JSManager
 from green_agent.evaluator.scorer import Scorer, FixScore
 
 class RAIDGreenAgent:    
-    def __init__(self, config_path: str = "configs/agent_config.yaml"):
+    def __init__(self, config_path: str = None):
+        # Use Docker config if no path specified and in Docker environment
+        if config_path is None:
+            if Path("/app/configs/docker_config.yaml").exists():
+                config_path = "/app/configs/docker_config.yaml"
+            else:
+                config_path = "configs/agent_config.yaml"
         # Load configuration
         with open(config_path, 'r') as f:
             self.config = yaml.safe_load(f)

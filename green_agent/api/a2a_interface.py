@@ -30,6 +30,10 @@ class FixSubmission(BaseModel):
 async def root():
     return {"name": "RAID-AI Green Agent", "version": "0.1.0"}
 
+@app.get("/health")
+async def health():
+    return {"status": "healthy", "service": "RAID-AI Green Agent"}
+
 @app.get("/benchmark/info")
 async def get_benchmark_info():
     """Get benchmark information"""
