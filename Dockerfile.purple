@@ -1,0 +1,27 @@
+# Purple Agent Docker Image
+FROM python:3.10-slim
+
+# Prevent interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+
+# Set working directory
+WORKDIR /app
+
+# Install basic dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install Python packages
+COPY requirements.txt /app/
+RUN pip3 install --no-cache-dir -r /app/requirements.txt
+
+# Copy test files
+COPY tests/ /app/tests/
+
+# Create logs directory
+RUN mkdir -p /app/logs
+
+# Default command runs the mock purple agent
+CMD ["python", "/app/tests/mock_purple_agent.py"]

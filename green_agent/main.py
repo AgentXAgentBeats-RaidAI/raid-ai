@@ -1,6 +1,7 @@
 """Main Green Agent - RAID-AI Benchmark"""
 import yaml
 import json
+import os
 import time
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -11,7 +12,13 @@ from green_agent.managers.js_manager import JSManager
 from green_agent.evaluator.scorer import Scorer, FixScore
 
 class RAIDGreenAgent:    
-    def __init__(self, config_path: str = "configs/agent_config.yaml"):
+    def __init__(self, config_path: str = None):
+        # Use Docker config if no path specified and in Docker environment
+        if config_path is None:
+            if Path("/app/configs/docker_config.yaml").exists():
+                config_path = "/app/configs/docker_config.yaml"
+            else:
+                config_path = "configs/agent_config.yaml"
         # Load configuration
         with open(config_path, 'r') as f:
             self.config = yaml.safe_load(f)
@@ -59,7 +66,11 @@ class RAIDGreenAgent:
         self._save_catalog()
     
     def _save_catalog(self):
-        catalog_path = Path("bugs/catalog.json")
+        catalog_path = 'bugs/catalog.json'
+        
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(catalog_path), exist_ok=True)
+        
         with open(catalog_path, 'w') as f:
             json.dump(self.bugs_catalog, f, indent=2)
         print(f"Catalog saved to {catalog_path}")

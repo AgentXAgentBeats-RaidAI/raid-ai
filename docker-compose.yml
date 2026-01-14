@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # Green Agent - The benchmark server
+  green-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host 
+    container_name: raid-ai-green-agent
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist logs and data
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - bug-workspace:/app/workspace
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - agentbeats
+
+  # Purple Agent - Mock agent for testing
+  purple-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.purple
+    container_name: raid-ai-purple-agent
+    depends_on:
+      green-agent:
+        condition: service_healthy
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GREEN_AGENT_URL=http://green-agent:8000
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - agentbeats
+    profiles:
+      - testing
+
+volumes:
+  bug-workspace:
+    driver: local
+
+networks:
+  agentbeats:
+    driver: bridge

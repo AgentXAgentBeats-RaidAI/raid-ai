@@ -1,75 +1,71 @@
-FROM ubuntu:24.04
+FROM python:3.10-bullseye
 
+ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=America/Los_Angeles
+WORKDIR /app
 
-# dependencies
+# Install system dependencies INCLUDING PERL MODULES (with retry logic)
 RUN apt-get update && \
     apt-get install -y \
-    openjdk-11-jdk \
-    git subversion \
-    perl-base cpanminus wget unzip \
-    python3 python3-pip python3-dev python3-venv \
-    nodejs npm \
-    build-essential \
-    curl vim nano \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+        git \
+        curl \
+        wget \
+        unzip \
+        build-essential \
+        openjdk-11-jdk \
+        maven \
+        vim \
+        cpanminus
 
+# Install Perl modules required by Defects4J
+RUN cpanm --notest String::Interpolate
 
+# clean up
+RUN rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 18 (with retry logic)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set Java environment
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-ENV PATH=$JAVA_HOME/bin:$PATH
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# Copy and install Python requirements
+COPY requirements.txt /app/
+RUN pip3 install --no-cache-dir --default-timeout=100 --retries=10 -r /app/requirements.txt
 
-RUN mkdir -p /workspace
-WORKDIR /workspace
-
-RUN echo "Installing Defects4J..." && \
-    git clone https://github.com/rjust/defects4j.git && \
-    cd defects4j && \
-    cpanm --installdeps . && \
+# ==================== DEFECTS4J SETUP ====================
+RUN git clone https://github.com/rjust/defects4j.git /opt/defects4j && \
+    cd /opt/defects4j && \
+    cpanm --notest --installdeps . && \
     ./init.sh
 
-ENV D4J_HOME=/workspace/defects4j
-ENV PATH=$PATH:$D4J_HOME/framework/bin
+ENV PATH="/opt/defects4j/framework/bin:${PATH}"
+RUN defects4j info -p Lang
 
-RUN echo "Installing BugsInPy..." && \
-    git clone https://github.com/soarsmu/BugsInPy.git && \
-    pip3 install --no-cache-dir pytest pytest-cov coverage
+# ==================== BUGSINPY SETUP ====================
+RUN git clone https://github.com/soarsmu/BugsInPy.git /opt/bugsinpy && \
+    cd /opt/bugsinpy && \
+    chmod +x framework/bin/*
 
-ENV BUGSINPY_HOME=/workspace/BugsInPy
-ENV PATH=$PATH:$BUGSINPY_HOME/framework/bin
+ENV PATH="/opt/bugsinpy/framework/bin:${PATH}"
 
+# ==================== BUGSJS SETUP ====================
+RUN git clone https://github.com/BugsJS/bug-dataset.git /opt/bugsjs
 
-RUN echo "Installing BugsJS..." && \
-    git clone https://github.com/BugsJS/bug-dataset.git bugsjs-dataset && \
-    git clone https://github.com/BugsJS/docker-environment.git bugsjs-docker
+# ==================== WORKSPACE SETUP ====================
+RUN mkdir -p /app/workspace /app/logs /app/data /app/bugs
 
-RUN cd bugsjs-docker && npm install -g . || echo "BugsJS CLI optional"
+# Copy application code
+COPY green_agent/ /app/green_agent/
+COPY tests/ /app/tests/
+COPY configs/ /app/configs/
 
-ENV BUGSJS_HOME=/workspace/bugsjs-dataset
+EXPOSE 8000
 
-RUN pip3 install --no-cache-dir \
-    requests \
-    fastapi \
-    uvicorn \
-    pydantic \
-    pytest \
-    pyyaml \
-    python-dotenv \
-    click
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
 
-
-RUN mkdir -p /workspace/project
-
-WORKDIR /workspace/project
-
-RUN echo "=== Verification ===" && \
-    java -version && \
-    python3 --version && \
-    node --version && \
-    defects4j info -p Lang | head -n 5 && \
-    echo "=== Setup Complete ==="
-
-CMD ["/bin/bash"]
+CMD ["python", "-m", "green_agent.api.a2a_interface"]
