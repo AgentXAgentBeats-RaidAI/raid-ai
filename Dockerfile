@@ -2,36 +2,31 @@ FROM python:3.10-bullseye
 
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
-
 WORKDIR /app
 
 # Install system dependencies INCLUDING PERL MODULES (with retry logic)
 RUN apt-get update && \
-    for i in 1 2 3; do \
-        apt-get install -y \
-            git \
-            curl \
-            wget \
-            unzip \
-            build-essential \
-            openjdk-11-jdk \
-            maven \
-            vim \
-            cpanminus \
-        && break || sleep 10; \
-    done && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y \
+        git \
+        curl \
+        wget \
+        unzip \
+        build-essential \
+        openjdk-11-jdk \
+        maven \
+        vim \
+        cpanminus
 
 # Install Perl modules required by Defects4J
 RUN cpanm --notest String::Interpolate
 
+# clean up
+RUN rm -rf /var/lib/apt/lists/*
+
 # Install Node.js 18 (with retry logic)
-RUN for i in 1 2 3; do \
-        curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-        apt-get install -y nodejs && \
-        rm -rf /var/lib/apt/lists/* && \
-        break || sleep 15; \
-    done
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set Java environment
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
@@ -61,7 +56,7 @@ ENV PATH="/opt/bugsinpy/framework/bin:${PATH}"
 RUN git clone https://github.com/BugsJS/bug-dataset.git /opt/bugsjs
 
 # ==================== WORKSPACE SETUP ====================
-RUN mkdir -p /app/workspace /app/logs /app/data
+RUN mkdir -p /app/workspace /app/logs /app/data /app/bugs
 
 # Copy application code
 COPY green_agent/ /app/green_agent/

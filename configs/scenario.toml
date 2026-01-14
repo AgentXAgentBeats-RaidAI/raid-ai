@@ -1,0 +1,71 @@
+# AgentBeats Leaderboard Configuration for RAID-AI Green Agent
+[assessment]
+green_agent_id = "raid-ai-green-agent"
+github_repo_url = "https://github.com/AgentXAgentBeats-RaidAI/raid-ai"
+docker_image = "ghcr.io/agentxagentbeats-raidai/raid-ai-green:latest"
+
+[environment]
+# Environment variables for assessment execution
+timeout_seconds = 600
+max_memory_mb = 4096
+cpu_cores = 2
+
+[benchmark]
+domain = "software_testing"
+name = "RAID-AI Multilanguage Bug-Fixing Benchmark"
+description = "Comprehensive benchmark for evaluating AI agents' bug-fixing capabilities across Java, Python, and JavaScript"
+version = "0.1.0"
+
+# Bug selection configuration
+[benchmark.tasks]
+total_count = 90
+java_count = 30
+python_count = 30 
+javascript_count = 30
+
+[benchmark.scoring]
+# Scoring weights
+correctness = 0.50
+code_quality = 0.20
+efficiency = 0.15
+minimal_change = 0.15
+
+[queries]
+# SQL queries for leaderboard ranking
+# These will be used by DuckDB to process assessment results
+leaderboard_query = """
+SELECT 
+    agent_id,
+    AVG(total_score) as avg_score,
+    SUM(CASE WHEN correctness_score > 0.8 THEN 1 ELSE 0 END) as bugs_fixed,
+    COUNT(*) as total_attempts,
+    AVG(execution_time_seconds) as avg_execution_time,
+    MAX(assessment_timestamp) as last_assessment
+FROM assessment_results 
+WHERE assessment_timestamp >= NOW() - INTERVAL 30 DAY
+GROUP BY agent_id
+ORDER BY avg_score DESC, bugs_fixed DESC
+"""
+
+detailed_query = """
+SELECT 
+    agent_id,
+    bug_framework,
+    bug_index,
+    total_score,
+    correctness_score,
+    code_quality_score,
+    efficiency_score,
+    minimal_change_score,
+    execution_time_seconds,
+    assessment_timestamp,
+    reproducible
+FROM assessment_results
+ORDER BY assessment_timestamp DESC
+"""
+
+# Participant configuration template
+[participant]
+# This will be populated when running assessments
+# Example: purple_agent_id = "example-purple-agent"
+# docker_image = "ghcr.io/example/purple-agent:latest"
